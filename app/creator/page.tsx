@@ -1,19 +1,21 @@
 
 import Image from 'next/image';
-
+import Link from 'next/link';
 const Memes = async() => {
    
     const res = await fetch('https://api.imgflip.com/get_memes')
-    .then(( res => res.json))
-    .then((res => res.data.memes))
-    console.log("Memes ==> " , );
+    .then((res) => res.json())
+    .then((res) =>res.data.memes)
+    .catch((error) => console.log("Error ==>" , error)
+    )
     
   interface Meme {
+    res: []
     url: string;
-    id: string;
+    id: number;
     box_count: number;
   }
-
+const generator = "../generator"
   return (
     <>
       <div className="bg-gradient-to-r from-purple-700 to-pink-500 min-h-screen p-10">
@@ -23,21 +25,26 @@ const Memes = async() => {
           </h1>
         </div>
         <div className="memes-grid">
-          {/* Conditional rendering if data is available */}
-          {data.length > 0 ? (
-            data.map((item: Meme, index: number) => (
+          {res ? res.memes.map((item: Meme, index: number) => (
               <div key={item.id} className="meme-item">
                 {/* Render Next.js Image component */}
                 <Image
                   src={item.url}
-                  alt={`Meme ${index}`}
+                  alt={`image`}
                   width={300}
                   height={300}
                   className="rounded-lg transform hover:rotate-3 hover:scale-110 transition-all duration-500 ease-in-out shadow-3xl"
                 />
+            <Link href={generator}>
+            <button className='btn btn-secondary text-xl px-3 py-2 mt-2 text-center'  >
+             Generate Your Meme
+            </button>
+            </Link>
+
               </div>
+            
             ))
-          ) : (
+           : (
             <p className="text-white text-center text-2xl">Loading memes...</p>
           )}
         </div>
