@@ -13,12 +13,13 @@ const Memers = async () => {
     id: number;
     box_count: number;
   }
-
+  console.log("Memes ==>",res.data);
+  
   const generator = "../generator";
 
   return (
     <>
-      <div className="min-h-screen py-10 bg-red-200">
+      <div className="min-h-screen py-8 bg-gradient-to-r from-pink-200 to-purple-200">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
             Meme Generator
