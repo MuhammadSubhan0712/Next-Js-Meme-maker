@@ -1,4 +1,5 @@
-"use client"
+'use client'
+
 import Link from "next/link"
 const App = () => {
   const creator = './creator'
@@ -7,7 +8,7 @@ const App = () => {
       <div className="bg-gradient-to-r from-green-900 to-yellow-900 h-screen flex justify-center items-center">
         <div className="text-center">
           <p className="text-5xl font-extrabold text-white drop-shadow-lg mb-12 tracking-wider animate-bounce">
-            Let's Have Some Fun!
+          Let's Have Some Fun!
           </p>
 
         <Link href={creator}>
