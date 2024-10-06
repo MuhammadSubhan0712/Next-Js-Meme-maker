@@ -5,7 +5,6 @@ const Memes = async() => {
         const memesData:[] = await fetch('https://api.imgflip.com/get_memes')
         const response:[{}]  =  await memesData.json();
         console.log("Memes",response.data.memes);
-
         interface datas {
             url: string
             id: string
