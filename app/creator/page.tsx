@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-
 const Memers = async () => {
   const res = await fetch("https://api.imgflip.com/get_memes")
     .then((res) => res.json())
@@ -13,9 +12,7 @@ const Memers = async () => {
     id: number;
     box_count: number;
   }
-  console.log("Memes ==>",res.data);
-  
-  const generator = "../generator";
+  console.log("Memes ==>", res.data);
 
   return (
     <>
@@ -32,8 +29,7 @@ const Memers = async () => {
                 return (
                   <div
                     key={item.id}
-                    className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg w-64"
-                  >
+                    className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg w-64">
                     {/* Image Display */}
                     <Image
                       className="rounded-sm w-56 h-56 object-cover border-2 border-gray-300"
@@ -44,9 +40,17 @@ const Memers = async () => {
                     />
 
                     {/* Generate Button */}
-                    <Link href={generator}>
+                    <Link
+                      href={{
+                        pathname: "../generator",
+                        query: {
+                          url: item.url,
+                          id: item.id,
+                          box_count: item.box_count,
+                        },
+                      }}>
                       <button className="mt-5 w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700">
-                      Generate Your Meme
+                        Generate Your Meme
                       </button>
                     </Link>
                   </div>
