@@ -1,12 +1,11 @@
-
 const nextConfig = {
-    images : {
-        remotePatterns : [
-            {
-                protocol : "https" , 
-                hostname : "i.imgflip.com"
-            }
-        ]
-    }
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.imgflip.com",
+      },
+    ],
+  },
 };
-export default nextConfig
+export default nextConfig;
