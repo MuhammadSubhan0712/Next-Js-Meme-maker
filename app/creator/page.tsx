@@ -19,7 +19,7 @@ const Memers = async () => {
       <div className="min-h-screen py-8 bg-gradient-to-r from-pink-200 to-purple-200">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
-            Meme Generator
+            Hello Memers
           </h1>
 
           {/* Meme Cards */}

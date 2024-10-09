@@ -11,7 +11,9 @@ interface SingleData {
 
 const Meme = ({ searchParams }: { searchParams: SingleData }) => {
   // State to store text inputs dynamically
-  const [texts, setTexts] = useState<string[]>(Array(searchParams.box_count).fill(""));
+  const [texts, setTexts] = useState<string[]>(
+    Array(searchParams.box_count).fill("")
+  );
 
   const [submit, setSubmit] = useState("Generate Your Meme");
   const [memeUrl, setMemeUrl] = useState<string | null>(null);
@@ -63,21 +65,23 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-pink-200 to-purple-200 p-6">
+    <div className="flex flex-col items-center justify-center p-6 min-h-screen bg-gradient-to-r from-pink-200 to-purple-200">
+      <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
+        Meme Generator
+      </h1>
       <div className="mb-6">
         <Image
           src={searchParams.url}
-          alt="Meme Template"
+          alt="Meme Image"
           width={400}
           height={200}
-          className="rounded-lg shadow-lg"
+          className="rounded-lg border-groove border-8 border-gray-700 shadow-lg"
           unoptimized
         />
       </div>
       <form
         onSubmit={memeForm}
-        className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-lg"
-      >
+        className="flex flex-col gap-4 w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
         {Array.from({ length: searchParams.box_count }).map((_, index) => (
           <input
             key={index}
@@ -90,11 +94,9 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
         ))}
         <button
           type="submit"
-          className="px-3 py-2 bg-blue-600 hover:bg-blue-900 text-white rounded-sm"
-        >
+          className="px-3 py-2 bg-blue-600 hover:bg-blue-900 text-white rounded-sm">
           {submit}
         </button>
-
       </form>
       {memeUrl && (
         <div className="mt-6">
@@ -106,22 +108,20 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
           </div>
           <Image
             src={memeUrl}
-            alt="Generated Meme"
+            alt="Meme Image"
             width={400}
             height={200}
-            className="rounded-lg shadow-lg mt-2"
+            className="rounded-lg border-groove border-8 border-gray-700 shadow-lg mt-2"
           />
           <div className="mt-4 flex justify-between gap-4">
             <button
               onClick={handleEdit}
-              className="px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-md"
-            >
+              className="px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-md">
               <SquarePen size={32} />
             </button>
             <button
               onClick={handleShare}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded-md"
-            >
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded-md">
               <Share2 size={32} />
             </button>
           </div>
