@@ -4,14 +4,14 @@ const App = () => {
   const creator = './creator'
   return (
     <>
-      <div className="bg-gradient-to-r from-green-900 to-yellow-900 h-screen flex justify-center items-center">
+      <div className="bg-gradient-to-r from-blue-500 to-green-500 h-screen flex justify-center items-center">
         <div className="text-center">
           <p className="text-5xl font-extrabold text-white drop-shadow-lg mb-12 tracking-wider animate-bounce">
           Let's Have Some Fun!
           </p>
 
         <Link href={creator}>
-        <button className="btn-3d text-xl transition-transform transform hover:scale-110 duration-300 ease-in-out text-white bg-gradient-to-r from-teal-400 to-indigo-600 px-8 py-4 rounded-full shadow-lg hover:shadow-2xl">
+        <button className="btn-3d text-xl transition-transform transform hover:scale-110 duration-300 ease-in-out text-white bg-gradient-to-l from-teal-700 to-indigo-700 px-8 py-4 rounded-full shadow-lg hover:shadow-2xl">
         Click Me
         </button>
         </Link>

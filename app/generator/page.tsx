@@ -94,12 +94,13 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
         >
           {submit}
         </button>
+
       </form>
       {memeUrl && (
         <div className="mt-6">
           <h2 className="text-xl font-semibold text-center">Generated Meme:</h2>
           <div className="flex justify-evenly">
-            {[...Array(12)].map((_, index) => (
+            {[...Array(11)].map((_, index) => (
               <Laugh key={index} className="text-red-600" size={36} />
             ))}
           </div>
