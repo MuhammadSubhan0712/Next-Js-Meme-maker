@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SquareArrowLeft } from "lucide-react";
 const Memers = async () => {
   const res = await fetch("https://api.imgflip.com/get_memes")
     .then((res) => res.json())
@@ -17,12 +16,7 @@ const Memers = async () => {
   return (
     <>
       <div className="min-h-screen py-8 bg-gradient-to-r from-pink-200 to-purple-200">
-        <Link href={{ pathname: "./page.tsx" }}>
-          <SquareArrowLeft
-            className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 transform transition-transform duration-300 ease-in-out hover:scale-125"
-            size={44}
-          />
-        </Link>
+     
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
             Hello Memers
