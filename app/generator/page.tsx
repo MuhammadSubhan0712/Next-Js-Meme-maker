@@ -16,8 +16,8 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
     Array(searchParams.box_count).fill("")
   );
 
-  const username = process.env.NEXT_PUBLIC_IMGFLIP_USERNAME;
-  const password = process.env.NEXT_PUBLIC_IMGFLIP_PASSWORD;
+  const username = process.env.USERNAME;
+  const password = process.env.PASSWORD;
 
   const [submit, setSubmit] = useState("Generate Your Meme");
   const [memeUrl, setMemeUrl] = useState<string | null>(null);
@@ -35,8 +35,7 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
 
     // Dynamically build text params based on box_count
     const textParams = texts
-      .map((text, index) => (text ? `&text${index}=${text}` : ""))
-      .join("");
+      .map((text, index) => `&text${index}=${encodeURIComponent(text)}`).join("");
 
     const response = await fetch(
       `https://api.imgflip.com/caption_image?template_id=${searchParams.id}&username=${username}&password=${password}${textParams}`,
@@ -44,15 +43,30 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
         method: "POST",
       }
     );
-
-    const data = await response.json();
-    if (data.success) {
-      setMemeUrl(data.data.url);
-    } else {
-      alert("Error generating meme");
+    console.log(textParams);
+    console.log(searchParams.box_count);
+    try {
+      const dataResponse = await response.json();
+      if (dataResponse.success) {
+        setMemeUrl(dataResponse.data.url);
+        console.log(dataResponse);
+        
+      } else{
+        alert(`Error: ${dataResponse.error_message || "Failed to generate meme"}`);
+        setMemeUrl(null);
+      }
+  
+    } 
+    catch (error) {
+      console.error("Error generating meme" , error);
+      alert("Error occured while generating meme.Please try again later.");
       setMemeUrl(null);
     }
-    setSubmit("Generate Your Meme");
+    finally{
+      setSubmit("Generate Your Meme");
+    }
+
+
   };
 
   const handleEdit = () => {
@@ -144,3 +158,4 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
 };
 
 export default Meme;
+
