@@ -16,6 +16,9 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
     Array(searchParams.box_count).fill("")
   );
 
+  const username = process.env.NEXT_PUBLIC_IMGFLIP_USERNAME;
+  const password = process.env.NEXT_PUBLIC_IMGFLIP_PASSWORD;
+
   const [submit, setSubmit] = useState("Generate Your Meme");
   const [memeUrl, setMemeUrl] = useState<string | null>(null);
 
@@ -36,7 +39,7 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
       .join("");
 
     const response = await fetch(
-      `https://api.imgflip.com/caption_image?template_id=${searchParams.id}&username=M.Subhan&password=subhanformeme${textParams}`,
+      `https://api.imgflip.com/caption_image?template_id=${searchParams.id}&username=${username}&password=${password}${textParams}`,
       {
         method: "POST",
       }
@@ -67,12 +70,12 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-6 min-h-screen bg-gradient-to-r from-pink-200 to-purple-200">
-     <Link href={{ pathname: "../creator" }}>
-  <SquareArrowLeft
-    className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 transform transition-transform duration-300 ease-in-out hover:scale-125"
-    size={44}
-  />
-</Link>
+      <Link href={{ pathname: "../creator" }}>
+        <SquareArrowLeft
+          className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 transform transition-transform duration-300 ease-in-out hover:scale-125"
+          size={44}
+        />
+      </Link>
       <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6">
         Meme Generator
       </h1>
@@ -123,11 +126,13 @@ const Meme = ({ searchParams }: { searchParams: SingleData }) => {
           <div className="mt-4 flex justify-between gap-4">
             <button
               onClick={handleEdit}
+              aria-label="Edit Meme"
               className="px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-md transition-all">
               <SquarePen size={32} />
             </button>
             <button
               onClick={handleShare}
+              aria-label="Share Meme"
               className="px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded-md transition-all">
               <Share2 size={32} />
             </button>
