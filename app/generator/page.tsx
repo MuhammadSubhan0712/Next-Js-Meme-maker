@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Laugh, Share2, SquarePen, SquareArrowLeft } from "lucide-react";
 
@@ -8,62 +8,48 @@ interface SingleData {
   id: string;
   url: string;
   box_count: number;
-  box: string;
 }
 
-const GenerateMeme = ({ searchParams }: { searchParams: SingleData }) => {
+const Meme = ({ searchParams }: { searchParams: SingleData }) => {
   // State to store text inputs dynamically
-  // const [texts, setTexts] = useState<string[]>(
-  //   Array(searchParams.box_count).fill("")
-  // );
+  const [texts, setTexts] = useState<string[]>(
+    Array(searchParams.box_count).fill("")
+  );
 
   const [submit, setSubmit] = useState("Generate Your Meme");
   const [memeUrl, setMemeUrl] = useState<string | null>(null);
-  const [loading , setLoading] = useState<boolean>(false);
-  const inputValue = useRef<HTMLInputElement[]>([]);
-  const box_count = parseInt(searchParams.box, 10) || 2;
 
-
-  // const handleChange = (index: number, value: string) => {
-  //   // Update the specific input field
-  //   const newTexts = [...texts];
-  //   newTexts[index] = value;
-  //   setTexts(newTexts);
-  // };
+  const handleChange = (index: number, value: string) => {
+    // Update the specific input field
+    const newTexts = [...texts];
+    newTexts[index] = value;
+    setTexts(newTexts);
+  };
 
   const memeForm = async (event: React.FormEvent) => {
     event.preventDefault();
-    setLoading(true);
     setSubmit("Loading...");
-    const texts = inputValue.current.map((refs)=> refs?.value || "");
-    console.log(texts[2]);
-    
-    try {
-      const response = await fetch(
-        `https://api.imgflip.com/caption_image?template_id=${
-          searchParams.id
-        }&username=M.Subhan&password=${process.env.PASSWORD}&boxes[0][text]=${texts[0]}
-        &boxes[1][text]=${texts[1]}&boxes[2]text=${
-          texts[2] == undefined ? "" : texts[2]
-        }&boxes[3][text]=${
-          texts[3] == undefined ? "" : texts[3]
-        }&boxes[4][text]=${texts[4] == undefined ? "" : texts[4]}`,
-        {
-          method: "POST",
-        }
-      );
 
-      const dataResponse = await response.json();
-      setMemeUrl(dataResponse.data.url);
-      setSubmit("Generate Your Meme");
-    } 
-    catch (error) {
-      console.log("Error generating meme" , error);
-    }
-    finally{
-      setLoading(false);
-    }
+    // Dynamically build text params based on box_count
+    const textParams = texts
+      .map((text, index) => (text ? `&text${index}=${text}` : ""))
+      .join("");
 
+    const response = await fetch(
+      `https://api.imgflip.com/caption_image?template_id=${searchParams.id}&username=M.Subhan&password=subhanformeme${textParams}`,
+      {
+        method: "POST",
+      }
+    );
+
+    const data = await response.json();
+    if (data.success) {
+      setMemeUrl(data.data.url);
+    } else {
+      alert("Error generating meme");
+      setMemeUrl(null);
+    }
+    setSubmit("Generate Your Meme");
   };
 
   const handleEdit = () => {
@@ -81,12 +67,12 @@ const GenerateMeme = ({ searchParams }: { searchParams: SingleData }) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-6 min-h-screen bg-gradient-to-r from-pink-200 to-purple-200">
-      <Link href={{ pathname: "../creator" }}>
-        <SquareArrowLeft
-          className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 transform transition-transform duration-300 ease-in-out hover:scale-125"
-          size={44}
-        />
-      </Link>
+     <Link href={{ pathname: "../creator" }}>
+  <SquareArrowLeft
+    className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 transform transition-transform duration-300 ease-in-out hover:scale-125"
+    size={44}
+  />
+</Link>
       <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-6">
         Meme Generator
       </h1>
@@ -103,14 +89,12 @@ const GenerateMeme = ({ searchParams }: { searchParams: SingleData }) => {
       <form
         onSubmit={memeForm}
         className="flex flex-col gap-4 w-full max-w-md bg-white p-4 md:p-6 rounded-lg shadow-lg">
-        {Array.from({ length: box_count }).map((_, index) => (
+        {Array.from({ length: searchParams.box_count }).map((_, index) => (
           <input
             key={index}
             type="text"
-            ref={(el)=> {
-              if (el) inputValue.current[index] = el;
-            }}
-            // onChange={(e) => handleChange(index, e.target.value)}
+            value={texts[index]}
+            onChange={(e) => handleChange(index, e.target.value)}
             placeholder={`Enter Text ${index + 1}`}
             className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 transition w-full"
           />
@@ -154,4 +138,4 @@ const GenerateMeme = ({ searchParams }: { searchParams: SingleData }) => {
   );
 };
 
-export default GenerateMeme;
+export default Meme;
